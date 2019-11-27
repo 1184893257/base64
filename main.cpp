@@ -3,6 +3,7 @@
 #include <string.h>
 #include <assert.h>
 #include <iostream>
+#include <fstream>
 #include <string>
 
 #include "base64.h"
@@ -30,6 +31,8 @@ test(unsigned char *encode, unsigned int encodelen,
 	free(decode_out);
 }
 
+// #define PRINT_DEBUG
+
 int
 main(void)
 {
@@ -43,9 +46,26 @@ main(void)
 
   string in;
   cin>>in;
+  unsigned int decodeLen = BASE64_DECODE_OUT_SIZE(in.length());
+
+#ifdef PRINT_DEBUG
+  unsigned char* out = new unsigned char[decodeLen + 1];
+  out[decodeLen] = 0;
+#else
+  unsigned char* out = new unsigned char[decodeLen];
+#endif
+
+  base64_decode(in.c_str(), in.length(), out);
+
+#ifdef PRINT_DEBUG
+  cout<<(char*)out<<endl;
+#endif
   
-  //char*
-  //char* out
+  ofstream file("decode.bin", ios::out | ios::binary);
+  file.write((const char*)out, decodeLen);
+  file.close();
+
+  delete[] out;
 
 	return 0;
 }

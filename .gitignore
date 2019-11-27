@@ -1,2 +1,8 @@
 *.o
+*.sdf
+*.suo
+*.opensdf
+*.bin
 main
+[Dd]ebug/
+ipch/
